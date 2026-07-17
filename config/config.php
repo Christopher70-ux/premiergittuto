@@ -2,7 +2,7 @@
 $host = 'localhost';
 $dbname = 'premiergituto';
 $username = 'root';
-$password = '';  // XAMPP = pas de mot de passe
+$password = ''; 
 
 try {
     $pdo = new PDO(
@@ -17,4 +17,5 @@ try {
 } catch(PDOException $e) {
    // die("Erreur : " . $e->getMessage());
 }
+
 ?>

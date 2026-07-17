@@ -1,3 +1,138 @@
+<?php
+require 'config/auth.php';
+require 'config/config.php';
+
+
+// Vérifier la méthode de requête
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Vérifier que toutes les données sont présentes
+    if (!isset($_POST['titre'], $_POST['contenu'], $_POST['prix'], $_POST['categorie_id']) || 
+        !isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+        $_SESSION['error'] = "Tous les champs sont obligatoires et l'image doit être valide.";
+        header('Location: ajoutlivres.php');
+        exit();
+    }
+
+    // Échapper et valider les données
+    $titre = trim(htmlspecialchars($_POST['titre']));
+    $contenu = trim(htmlspecialchars($_POST['contenu']));
+    $prix = filter_var($_POST['prix'], FILTER_VALIDATE_FLOAT);
+    $categorie_id = filter_var($_POST['categorie_id'], FILTER_VALIDATE_INT);
+    $user_id = $_SESSION['user_id'];
+    $created_at = date('Y-m-d H:i:s');
+
+    // Validation des champs
+    $errors = [];
+    
+    if (empty($titre)) {
+        $errors[] = "Le titre est obligatoire.";
+    }
+    if (empty($contenu)) {
+        $errors[] = "Le contenu est obligatoire.";
+    }
+    if ($prix === false || $prix < 0) {
+        $errors[] = "Le prix doit être un nombre valide et positif.";
+    }
+    if ($categorie_id === false || $categorie_id < 1) {
+        $errors[] = "La catégorie est invalide.";
+    }
+
+    // Validation de l'image
+    $image = $_FILES['image'];
+    $extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+    $types_mime_autorises = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    
+    if (!in_array($extension, $extensions_autorisees)) {
+        $errors[] = "Format d'image non autorisé. Utilisez JPG, PNG, GIF ou WEBP.";
+    }
+    
+    if (!in_array($image['type'], $types_mime_autorises)) {
+        $errors[] = "Type de fichier non autorisé.";
+    }
+    
+    if ($image['size'] > 5 * 1024 * 1024) { // 5 Mo
+        $errors[] = "L'image ne doit pas dépasser 5 Mo.";
+    }
+
+    // Si pas d'erreurs, procéder à l'upload
+    if (empty($errors)) {
+        // Créer le dossier images s'il n'existe pas
+        $dossier_images = 'images/';
+        if (!is_dir($dossier_images)) {
+            mkdir($dossier_images, 0777, true);
+        }
+        
+        // Générer un nom unique pour l'image
+        $nom_image = time() . '_' . uniqid() . '.' . $extension;
+        $chemin_image = $dossier_images . $nom_image;
+
+        // Déplacer l'image
+        if (move_uploaded_file($image['tmp_name'], $chemin_image)) {
+            // Préparer la requête SQL
+            $sql = "INSERT INTO livres (titre, contenu, image, prix, categorie_id, created_at, user_id) 
+                    VALUES (:titre, :contenu, :image, :prix, :categorie_id, :created_at, :user_id)";
+            
+            try {
+                $stmt = $pdo->prepare($sql);
+                
+                // Exécuter avec les données sécurisées
+                $success = $stmt->execute([
+                    ':titre' => $titre,
+                    ':contenu' => $contenu,
+                    ':image' => $nom_image,
+                    ':prix' => $prix,
+                    ':categorie_id' => $categorie_id,
+                    ':created_at' => $created_at,
+                    ':user_id' => $user_id
+                ]);
+
+                if ($success) {
+                    $_SESSION['success'] = "Livre ajouté avec succès !";
+                    header('Location: liste_livres.php');
+                    exit();
+                } else {
+                    // Supprimer l'image si l'insertion échoue
+                    if (file_exists($chemin_image)) {
+                        unlink($chemin_image);
+                    }
+                    $_SESSION['error'] = "Erreur lors de l'ajout du livre dans la base de données.";
+                }
+            } catch (PDOException $e) {
+                // Supprimer l'image en cas d'erreur
+                if (file_exists($chemin_image)) {
+                    unlink($chemin_image);
+                }
+                $_SESSION['error'] = "Erreur SQL : " . $e->getMessage();
+                error_log("Erreur d'insertion livre: " . $e->getMessage());
+            }
+        } else {
+            $_SESSION['error'] = "Erreur lors du téléchargement de l'image.";
+        }
+    } else {
+        // Stocker les erreurs en session
+        $_SESSION['errors'] = $errors;
+    }
+
+    // Redirection
+    header('Location: ajoutlivres.php');
+    exit();
+} else {
+    // Si la méthode n'est pas POST
+    header('Location: ajoutlivres.php');
+    exit();
+}
+?>
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -104,36 +239,49 @@
 			<div class="row">
 				<div class="col-lg-7 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s" data-wow-offset="0">
 					<div class="contact">
-						<form class="form" name="enq" method="post" action="contact.php" onsubmit="return validation();">
+					<form class="form" name="enq" method="post" action="" enctype="multipart/form-data">
 							<div class="row">
 								<div class="form-group col-md-6">
-									<label for="">Name</label>
-									<input type="text" name="name" class="form-control" required="required">
+									<label for="">Titre du livre</label>
+									<input type="text" name="titre" class="form-control" required="required">
 								</div>
 								<div class="form-group col-md-6">
-									<label for="">Your Email</label>
-									<input type="email" name="email" class="form-control" required="required">
+									<label for="">Prix</label>
+									<input type="number" name="prix" class="form-control" step="0.01" min="0" required="required">
 								</div>
 								<div class="form-group col-md-12">
-									<label for="">Your Subject</label>
-									<input type="text" name="subject" class="form-control" required="required">
+									<label for="">Catégorie</label>
+									<select name="categorie_id" class="form-control" required="required">
+										<option value="">Sélectionnez une catégorie</option>
+										<?php
+										try {
+											$stmt = $pdo->query("SELECT id, nom FROM categories ORDER BY nom");
+											while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+												echo '<option value="' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['nom']) . '</option>';
+											}
+										} catch (PDOException $e) {
+											echo '<option value="">Erreur de chargement des catégories</option>';
+										}
+										?>
+									</select>
 								</div>
 								<div class="form-group col-md-12">
-									<label for="">Your Message</label>
-									<textarea rows="6" name="message" class="form-control" required="required"></textarea>
+									<label for="">Image du livre</label>
+									<input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png,.gif,.webp" required="required">
+									<small class="form-text text-muted">Formats autorisés : JPG, PNG, GIF, WEBP (max 5 Mo)</small>
+								</div>
+								<div class="form-group col-md-12">
+									<label for="">Contenu / Description</label>
+									<textarea rows="6" name="contenu" class="form-control" required="required" placeholder="Décrivez votre livre..."></textarea>
 								</div>
 								<div class="col-md-12 text-center">
-									<button type="submit" value="Send message" name="submit" id="submitButton" class="btn_one" title="Submit Your Message!">Send Message</button>
+									<button type="submit" value="Ajouter un livre" name="submit" id="submitButton" class="btn_one" title="Ajouter votre livre!">Ajouter le livre</button>
 								</div>
 							</div>
-						</form>
+</form>
 					</div>
 				</div><!-- END COL  -->
-				<div class="col-lg-5 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s" data-wow-offset="0">
-					<div class="map">
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.957183635167!2d-74.00402768559431!3d40.71895904512855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598a1316e7a7%3A0x47bb20eb6074b3f0!2sNew%20Work%20City%20-%20(CLOSED)!5e0!3m2!1sbn!2sbd!4v1600305497356!5m2!1sbn!2sbd" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-					</div>
-				</div><!-- END COL  -->
+				<!-- END COL  -->
 			</div><!-- END ROW -->
 		</div><!--- END CONTAINER -->
 	</div>
