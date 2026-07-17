@@ -31,9 +31,8 @@
 					</div><!--- END Col -->
 					
 					<div class="col-20 d-none d-xl-block text-end align-self-center">
-						<a href="#" class="header-btn">Sign In</a>
-						<a href="#" class="btn_one">Sign Up</a>
-					</div><!--- END Col -->
+					<a href="profil.php" class="header-btn">Sign In</a>
+					<a href="inscription.php" class="btn_one">Sign Up</a>
 					
 					<ul class="mobile_menu">						
 						<li><a href="#">Home</a>

@@ -20,13 +20,14 @@ Version      : 1.0
 			$(".mobile_menu").simpleMobileMenu({			
 				"menuStyle": "slide"
 			});
-			$(window).on('scroll', function(){
-				if ( $(window).scrollTop() > 70 ) {
-					$('.site-navigation, .header-white, .header').addClass('navbar-fixed');
-				} else {
-					$('.site-navigation, .header-white, .header').removeClass('navbar-fixed');
-				}
-			});	
+			// Scroll-based fixed navbar disabled because it causes layout jitter.
+			// $(window).on('scroll', function(){
+			// 	if ( $(window).scrollTop() > 70 ) {
+			// 		$('.site-navigation, .header-white, .header').addClass('navbar-fixed');
+			// 	} else {
+			// 		$('.site-navigation, .header-white, .header').removeClass('navbar-fixed');
+			// 	}
+			// });	
 		/*END MENU JS*/				
 
 		/*START VIDEO JS*/	
