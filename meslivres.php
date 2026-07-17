@@ -1,3 +1,47 @@
+<?php
+require 'config/auth.php';
+require 'config/config.php';
+
+$user_id = $_SESSION['user_id'];
+
+// Configuration de la pagination
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 6; // Nombre d'éléments par page
+$offset = ($page - 1) * $limit;
+
+try {
+    // Compter le nombre total de livres
+    $countSql = 'SELECT COUNT(*) as total FROM livres WHERE user_id = ?';
+    $countStmt = $pdo->prepare($countSql);
+    $countStmt->execute([$user_id]);
+    $totalLivres = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+    
+    // Calculer le nombre total de pages
+    $totalPages = ceil($totalLivres / $limit);
+    
+    // Vérifier que la page demandée est valide
+    if ($page < 1) $page = 1;
+    if ($page > $totalPages && $totalPages > 0) $page = $totalPages;
+    
+    // Récupérer les livres avec pagination
+    $sql = 'SELECT livres.*, categories.nom AS categorie_nom
+            FROM livres
+            LEFT JOIN categories ON categories.id = livres.categorie_id
+            WHERE livres.user_id = ?
+            ORDER BY livres.created_at DESC
+            LIMIT ? OFFSET ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$user_id, $limit, $offset]);
+    $livres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Erreur SQL: " . $e->getMessage());
+    $livres = [];
+    $totalPages = 0;
+    $page = 1;
+    $error_message = "Une erreur est survenue lors du chargement des cours.";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,89 +112,122 @@
 
 	<!-- START COURSE -->
 	<section class="home_course section-padding">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 col-sm-6 col-xs-12">
-					<div class="single_course">
-						<div class="single_c_img">
-							<img src="assets/img/course/1.png" class="img-fluid" alt="course-image" />
-							<span>Education</span>
-						</div>
-						<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-						<h4><a href="course.html">Complete User fundamentals beginners to advanced</a></h4>
-						<p><span class="ti-book"> </span> 12 Course</p>
-						<p><span class="ti-alarm-clock"> </span>2 Hrs 32 Min</p>
-						<div class="price">Course Fee - 99$</div>
-					</div>
-				</div><!-- END COL -->
-				<div class="col-lg-4 col-sm-6 col-xs-12">
-					<div class="single_course">
-						<div class="single_c_img">
-							<img src="assets/img/course/2.png" class="img-fluid" alt="course-image" />
-							<span>UI/UX</span>
-						</div>
-						<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-						<h4><a href="course.html">Advanced Android 12 & Kotlin Development Course</a></h4>
-						<p><span class="ti-book"> </span> 41 Course</p>
-						<p><span class="ti-alarm-clock"> </span>3 Hrs 32 Min</p>
-						<div class="price">Course Fee - 49$</div>
-					</div>
-				</div><!-- END COL -->
-				<div class="col-lg-4 col-sm-6 col-xs-12">
-					<div class="single_course">
-						<div class="single_c_img">
-							<img src="assets/img/course/3.png" class="img-fluid" alt="course-image" />
-							<span>Lifestyle</span>
-						</div>
-						<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-						<h4><a href="course.html">Complete HTML, CSS and Javascript Course</a></h4>
-						<p><span class="ti-book"> </span> 32 Course</p>
-						<p><span class="ti-alarm-clock"> </span>2 Hrs 32 Min</p>
-						<div class="price">Course Fee - Free</div>
-					</div>
-				</div><!-- END COL -->
-				<div class="col-lg-4 col-sm-6 col-xs-12">
-					<div class="single_course">
-						<div class="single_c_img">
-							<img src="assets/img/course/4.png" class="img-fluid" alt="course-image" />
-							<span>Science</span>
-						</div>
-						<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-						<h4><a href="course.html">IOS and Swift Complete iOS Application Development</a></h4>
-						<p><span class="ti-book"> </span> 19 Course</p>
-						<p><span class="ti-alarm-clock"> </span>2 Hrs 32 Min</p>
-						<div class="price">Course Fee - 59$</div>
-					</div>
-				</div><!-- END COL -->
-				<div class="col-lg-4 col-sm-6 col-xs-12">
-					<div class="single_course">
-						<div class="single_c_img">
-							<img src="assets/img/course/5.png" class="img-fluid" alt="course-image" />
-							<span>Modern</span>
-						</div>
-						<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-						<h4><a href="course.html">Learn graphics design with a best IT Trainer</a></h4>
-						<p><span class="ti-book"> </span> 22 Course</p>
-						<p><span class="ti-alarm-clock"> </span>2 Hrs 32 Min</p>
-						<div class="price">Course Fee - 79$</div>
-					</div>
-				</div><!-- END COL -->
-				<div class="col-lg-4 col-sm-6 col-xs-12">
-					<div class="single_course">
-						<div class="single_c_img">
-							<img src="assets/img/course/6.png" class="img-fluid" alt="course-image" />
-							<span>Marketing</span>
-						</div>
-						<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-						<h4><a href="course.html">Complete data science for your next business</a></h4>
-						<p><span class="ti-book"> </span> 11 Course</p>
-						<p><span class="ti-alarm-clock"> </span>2 Hrs 32 Min</p>
-						<div class="price">Course Fee - 39$</div>
-					</div>
-				</div><!-- END COL -->
-			</div><!--- END ROW -->
-		</div><!--- END CONTAINER -->
-	</section>
+        <div class="container">			
+            <div class="row">
+                <?php if (!empty($error_message)): ?>
+                    <div class="col-12">
+                        <div class="alert alert-danger"><?= htmlspecialchars($error_message) ?></div>
+                    </div>
+                <?php elseif (empty($livres)): ?>
+                    <div class="col-12 text-center">
+                        <p>Aucun cours disponible pour le moment.</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($livres as $livre): ?>
+                    <div class="col-lg-4 col-sm-6 col-xs-12">
+                        <div class="single_course">
+                            <div class="single_c_img">
+                                <?php 
+                                // Sécuriser le chemin de l'image
+                                $imageName = !empty($livre['image']) ? basename($livre['image']) : 'default.jpg';
+                                ?>
+                                <img src="images/<?= htmlspecialchars($imageName, ENT_QUOTES, 'UTF-8') ?>" 
+                                     class="img-fluid" 
+                                     alt="<?= htmlspecialchars($livre['titre'] ?? 'Sans titre', ENT_QUOTES, 'UTF-8') ?>" />
+                                <span><?= htmlspecialchars($livre['categorie_nom'] ?: 'Sans catégorie', ENT_QUOTES, 'UTF-8') ?></span>
+                            </div>
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                            <h4><?= htmlspecialchars($livre['titre'] ?? 'Sans titre', ENT_QUOTES, 'UTF-8') ?></h4>
+                            <p><?= nl2br(htmlspecialchars($livre['contenu'] ?? '', ENT_QUOTES, 'UTF-8')) ?></p>
+                            <div class="price">
+                                Prix - <?= number_format((float) ($livre['prix'] ?? 0), 0, ',', ' ') ?> €
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    
+                    <!-- PAGINATION -->
+                    <?php if ($totalPages > 1): ?>
+                    <div class="col-12">
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Lien vers la première page -->
+                                <?php if ($page > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page - 1 ?>" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <?php else: ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link">&laquo;</span>
+                                </li>
+                                <?php endif; ?>
+                                
+                                <!-- Pages -->
+                                <?php
+                                // Afficher les pages avec une logique pour les pages intermédiaires
+                                $startPage = max(1, $page - 2);
+                                $endPage = min($totalPages, $page + 2);
+                                
+                                if ($startPage > 1) {
+                                    echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
+                                    if ($startPage > 2) {
+                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                    }
+                                }
+                                
+                                for ($i = $startPage; $i <= $endPage; $i++) {
+                                    if ($i == $page) {
+                                        echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+                                    } else {
+                                        echo '<li class="page-item"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                                    }
+                                }
+                                
+                                if ($endPage < $totalPages) {
+                                    if ($endPage < $totalPages - 1) {
+                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                    }
+                                    echo '<li class="page-item"><a class="page-link" href="?page=' . $totalPages . '">' . $totalPages . '</a></li>';
+                                }
+                                ?>
+                                
+                                <!-- Lien vers la dernière page -->
+                                <?php if ($page < $totalPages): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page + 1 ?>" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $totalPages ?>" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                                <?php else: ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link">&raquo;</span>
+                                </li>
+                                <?php endif; ?>
+                            </ul>
+                        </nav>
+                        
+                        <!-- Affichage du nombre total d'éléments -->
+                        <div class="text-center text-muted mt-2">
+                            <small>Affichage de <?= count($livres) ?> cours sur <?= $totalLivres ?> total</small>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+        </div>		
+    </section>
 	<!-- END COURSE -->
 
 	<!-- START FOOTER -->
