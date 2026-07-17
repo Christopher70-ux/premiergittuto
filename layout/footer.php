@@ -5,7 +5,7 @@
 					<div class="col-lg-3 col-sm-6 col-xs-12">
 						<div class="single_footer">
 							<a href="index.html"><img src="assets/img/logo.png" alt=""></a>         
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae risus nec dui venenatis dignissim.</p>
+							<p>Lire pour grandir, publier pour transmettre, apprendre pour évoluer, se divertir pour vibrer.</p>
 							<div class="social_profile">
 								<ul>
 									<li><a class="f_facebook" href="#"><i class="fa-solid fa-x"></i></a></li>
@@ -31,9 +31,9 @@
 					</div><!--- END COL -->	
 					<div class="col-lg-2 col-sm-6 col-xs-12">
 						<div class="single_footer">
-							<h4>Popular Courese</h4>
+							<h4>Livres Populaires</h4>
 							<ul>
-								<li><a href="#">Development</a></li>
+								<li><a href="#">Développement</a></li>
 								<li><a href="#">Arts & design</a></li>
 								<li><a href="#">Visual Design</a></li>
 								<li><a href="#">Graphic Design</a></li>
@@ -79,7 +79,7 @@
         <!-- START FOOTER COPYRIGHT -->	
 		<div class="foot_copy">
 			<div class="footer_copyright">
-				<p>&copy; 2024. All Rights Reserved by <a href="https://bestwpware.com/">Bestwpware</a> • Distributed by <a href="https://themewagon.com">ThemeWagon</a></p>
+				<p>&copy; 2026. Tous droits réservés • Réalisé par <a href="https://edvcoder.org">EDVCODER</a></p>
 			</div>	
 		</div>
 		<!-- END FOOTER COPYRIGHT -->	
