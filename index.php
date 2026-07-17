@@ -72,7 +72,9 @@
 				</div><!--- END ROW -->
 			</div><!--- END CONTAINER -->
 		</section>
-		<!-- END  HOME -->			
+		<!-- END  HOME -->	
+		 
+		
 
 		<!-- START COUNTER -->
 		<section class="count_area counter_feature">
@@ -89,7 +91,7 @@
 						<div class="single-counter">
 							<span class="ti-medall-alt sc_two"></span>
 							<h2 class="counter-num">299</h2>
-							<p>Academic Programs</p>
+							<p>Academic Programs</p> 
 						</div>
 					</div><!-- END COL -->
 					<div class="col-lg-3 col-sm-6 col-xs-12">
@@ -110,6 +112,8 @@
 			</div><!--- END CONTAINER -->		
 		</section>
 		<!-- END COUNTER -->
+
+	<?php require_once 'all_livres.php'; ?>
 
 	<!-- START CATEGORY -->
 	<section class="top_cat__area section-padding" style="background-image: url(assets/img/bg/shape-1.png);  background-size:cover; background-position: center center;">
