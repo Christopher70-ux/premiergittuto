@@ -46,8 +46,8 @@
 								<li><a href="blog.html">Blog</a></li>
 								<li><a href="blog_single.html">Blog Details</a></li>
 							</ul>
-						</li>						
-						<li><a href="contact.html">Contact</a></li-->
+						</li-->						
+						<li><a href="layout/logout.php">Déconnexion</a></li>
 					</ul>			
 				</div><!--- END ROW -->
 			</div><!--- END CONTAINER -->
