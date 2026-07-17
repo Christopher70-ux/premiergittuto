@@ -36,35 +36,18 @@
 					</div><!--- END Col -->
 					
 					<ul class="mobile_menu">						
-						<li><a href="#">Home</a>
-							<ul class="sub-menu">										
-								<li><a href="index.html">Home 01</a></li>
-								<li><a href="index2.html">Home 02</a></li>						
-							</ul>
+						<li><a href="index.php">Accueil</a>
 						</li>	
-						<li><a href="about.html">About</a></li>						
-						<li><a href="#">Course</a>
-							<ul class="sub-menu">										
-								<li><a href="course.html">Course</a></li>
-								<li><a href="course_details.html">Course Deails</a></li>									
-							</ul>
-						</li>
-						<li><a href="#">Pages</a>
-							<ul class="sub-menu">									
-								<li><a href="instructor.html">Instructor</a></li>
-								<li><a href="ins_details.html">Instructor Details</a></li>
-								<li><a href="pricing.html">Pricing Plan</a></li>
-								<li><a href="faq.html">Faq Page</a></li>			
-								<li><a href="404.html">404</a></li>							
-							</ul>
-						</li>			
-						<li><a href="blog.html">Blog</a>
+						<li><a href="meslivres.php">Mes Livres</a></li>						
+						<li><a href="profil.php">Profil</a></li>
+						<li><a href="ajoutlivres.php">Publier</a></li>			
+						<!--li><a href="blog.html">Blog</a>
 							<ul class="sub-menu">										
 								<li><a href="blog.html">Blog</a></li>
 								<li><a href="blog_single.html">Blog Details</a></li>
 							</ul>
 						</li>						
-						<li><a href="contact.html">Contact</a></li>
+						<li><a href="contact.html">Contact</a></li-->
 					</ul>			
 				</div><!--- END ROW -->
 			</div><!--- END CONTAINER -->
