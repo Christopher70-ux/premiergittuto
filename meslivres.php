@@ -2,7 +2,7 @@
 require 'config/auth.php';
 require 'config/config.php';
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['id'];
 
 // Configuration de la pagination
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;

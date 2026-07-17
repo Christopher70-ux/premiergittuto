@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$user || !password_verify($password, $user['password'])) {
                 $errors[] = 'Nom d’utilisateur ou mot de passe invalide.';
             } else {
-                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['id'] = $user['id'];
                 $_SESSION['username'] = $user['nom'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['registration_date'] = $user['created_at'];

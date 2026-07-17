@@ -1,20 +1,15 @@
 <?php
-require 'config/auth.php';
 require 'config/config.php';
+require 'config/auth.php';
 
-
-// Vérifier la méthode de requête
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // Vérifier que toutes les données sont présentes
-    if (!isset($_POST['titre'], $_POST['contenu'], $_POST['prix'], $_POST['categorie_id']) || 
-        !isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-        $_SESSION['error'] = "Tous les champs sont obligatoires et l'image doit être valide.";
+
+    if (!isset($_POST['titre'], $_POST['contenu'], $_POST['prix'], $_POST['categorie_id'])) {
+        $_SESSION['error'] = "Tous les champs sont obligatoires.";
         header('Location: ajoutlivres.php');
         exit();
     }
 
-    // Échapper et valider les données
     $titre = trim(htmlspecialchars($_POST['titre']));
     $contenu = trim(htmlspecialchars($_POST['contenu']));
     $prix = filter_var($_POST['prix'], FILTER_VALIDATE_FLOAT);
@@ -22,104 +17,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $created_at = date('Y-m-d H:i:s');
 
-    // Validation des champs
     $errors = [];
-    
-    if (empty($titre)) {
-        $errors[] = "Le titre est obligatoire.";
-    }
-    if (empty($contenu)) {
-        $errors[] = "Le contenu est obligatoire.";
-    }
-    if ($prix === false || $prix < 0) {
-        $errors[] = "Le prix doit être un nombre valide et positif.";
-    }
-    if ($categorie_id === false || $categorie_id < 1) {
-        $errors[] = "La catégorie est invalide.";
-    }
 
-    // Validation de l'image
-    $image = $_FILES['image'];
-    $extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-    $extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
-    $types_mime_autorises = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-    
-    if (!in_array($extension, $extensions_autorisees)) {
-        $errors[] = "Format d'image non autorisé. Utilisez JPG, PNG, GIF ou WEBP.";
-    }
-    
-    if (!in_array($image['type'], $types_mime_autorises)) {
-        $errors[] = "Type de fichier non autorisé.";
-    }
-    
-    if ($image['size'] > 5 * 1024 * 1024) { // 5 Mo
-        $errors[] = "L'image ne doit pas dépasser 5 Mo.";
-    }
+    if (empty($titre)) $errors[] = "Le titre est obligatoire.";
+    if (empty($contenu)) $errors[] = "Le contenu est obligatoire.";
+    if ($prix === false || $prix < 0) $errors[] = "Le prix doit être un nombre valide et positif.";
+    if ($categorie_id === false || $categorie_id < 1) $errors[] = "La catégorie est invalide.";
 
-    // Si pas d'erreurs, procéder à l'upload
-    if (empty($errors)) {
-        // Créer le dossier images s'il n'existe pas
-        $dossier_images = 'images/';
-        if (!is_dir($dossier_images)) {
-            mkdir($dossier_images, 0777, true);
+    // Gestion de l'image (optionnelle)
+    $nom_image = null;
+    
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image = $_FILES['image'];
+        $extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+        $types_mime_autorises = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+        if (!in_array($extension, $extensions_autorisees)) {
+            $errors[] = "Format d'image non autorisé.";
         }
-        
-        // Générer un nom unique pour l'image
-        $nom_image = time() . '_' . uniqid() . '.' . $extension;
-        $chemin_image = $dossier_images . $nom_image;
+        if (!in_array($image['type'], $types_mime_autorises)) {
+            $errors[] = "Type de fichier non autorisé.";
+        }
+        if ($image['size'] > 5 * 1024 * 1024) {
+            $errors[] = "L'image ne doit pas dépasser 5 Mo.";
+        }
 
-        // Déplacer l'image
-        if (move_uploaded_file($image['tmp_name'], $chemin_image)) {
-            // Préparer la requête SQL
-            $sql = "INSERT INTO livres (titre, contenu, image, prix, categorie_id, created_at, user_id) 
-                    VALUES (:titre, :contenu, :image, :prix, :categorie_id, :created_at, :user_id)";
-            
-            try {
-                $stmt = $pdo->prepare($sql);
-                
-                // Exécuter avec les données sécurisées
-                $success = $stmt->execute([
-                    ':titre' => $titre,
-                    ':contenu' => $contenu,
-                    ':image' => $nom_image,
-                    ':prix' => $prix,
-                    ':categorie_id' => $categorie_id,
-                    ':created_at' => $created_at,
-                    ':user_id' => $user_id
-                ]);
-
-                if ($success) {
-                    $_SESSION['success'] = "Livre ajouté avec succès !";
-                    header('Location: liste_livres.php');
-                    exit();
-                } else {
-                    // Supprimer l'image si l'insertion échoue
-                    if (file_exists($chemin_image)) {
-                        unlink($chemin_image);
-                    }
-                    $_SESSION['error'] = "Erreur lors de l'ajout du livre dans la base de données.";
-                }
-            } catch (PDOException $e) {
-                // Supprimer l'image en cas d'erreur
-                if (file_exists($chemin_image)) {
-                    unlink($chemin_image);
-                }
-                $_SESSION['error'] = "Erreur SQL : " . $e->getMessage();
-                error_log("Erreur d'insertion livre: " . $e->getMessage());
+        if (empty($errors)) {
+            $dossier_images = 'images/';
+            if (!is_dir($dossier_images)) {
+                mkdir($dossier_images, 0777, true);
             }
-        } else {
-            $_SESSION['error'] = "Erreur lors du téléchargement de l'image.";
+            $nom_image = time() . '_' . uniqid() . '.' . $extension;
+            $chemin_image = $dossier_images . $nom_image;
+            
+            if (!move_uploaded_file($image['tmp_name'], $chemin_image)) {
+                $errors[] = "Erreur lors du téléchargement de l'image.";
+            }
+        }
+    }
+
+    if (empty($errors)) {
+        $sql = "INSERT INTO livres (titre, contenu, image, prix, categorie_id, created_at, user_id) 
+                VALUES (:titre, :contenu, :image, :prix, :categorie_id, :created_at, :user_id)";
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $success = $stmt->execute([
+                ':titre' => $titre,
+                ':contenu' => $contenu,
+                ':image' => $nom_image,
+                ':prix' => $prix,
+                ':categorie_id' => $categorie_id,
+                ':created_at' => $created_at,
+                ':user_id' => $user_id
+            ]);
+
+            if ($success) {
+                $_SESSION['success'] = "Livre ajouté avec succès !";
+                header('Location: liste_livres.php');
+                exit();
+            }
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Erreur : " . $e->getMessage();
         }
     } else {
-        // Stocker les erreurs en session
         $_SESSION['errors'] = $errors;
     }
 
-    // Redirection
-    header('Location: ajoutlivres.php');
-    exit();
-} else {
-    // Si la méthode n'est pas POST
     header('Location: ajoutlivres.php');
     exit();
 }
@@ -239,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<div class="row">
 				<div class="col-lg-7 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s" data-wow-offset="0">
 					<div class="contact">
-					<form class="form" name="enq" method="post" action="" enctype="multipart/form-data">
+						<form class="form" name="enq" method="post" action="" enctype="multipart/form-data">
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="">Titre du livre</label>
@@ -278,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 									<button type="submit" value="Ajouter un livre" name="submit" id="submitButton" class="btn_one" title="Ajouter votre livre!">Ajouter le livre</button>
 								</div>
 							</div>
-</form>
+						</form>
 					</div>
 				</div><!-- END COL  -->
 				<!-- END COL  -->
