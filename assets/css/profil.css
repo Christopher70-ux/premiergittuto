@@ -1,0 +1,65 @@
+/* Profil page styles */
+.profile-page {
+    padding: 80px 0;
+    background: #f7f9ff;
+}
+.profile-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 36px;
+    box-shadow: 0 20px 40px rgba(32, 57, 93, 0.08);
+    border: 1px solid rgba(82, 95, 225, 0.12);
+}
+.profile-card h2 {
+    font-size: 32px;
+    margin-bottom: 18px;
+    color: #0b104a;
+    font-weight: 700;
+}
+.profile-card p {
+    font-size: 16px;
+    line-height: 28px;
+    color: #4a5355;
+    margin-bottom: 16px;
+}
+.profile-card p strong {
+    color: #0b104a;
+}
+.profile-card .profile-actions {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.profile-card .btn-profile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+.btn-logout {
+    background: #f26b65;
+    color: #fff;
+}
+.btn-logout:hover {
+    background: #d95747;
+}
+.btn-edit {
+    background: #525fe1;
+    color: #fff;
+}
+.btn-edit:hover {
+    background: #3f4fd2;
+}
+@media (max-width: 767px) {
+    .profile-card {
+        padding: 28px 22px;
+    }
+    .profile-card h2 {
+        font-size: 28px;
+    }
+}
