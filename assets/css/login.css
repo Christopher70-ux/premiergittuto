@@ -1,0 +1,102 @@
+/* Login page styles */
+body {
+    background: #eef2ff;
+    font-family: "DM Sans", sans-serif;
+    color: #4a5355;
+}
+.login-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #eef2ff 0%, #ffffff 100%);
+}
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(25, 43, 85, 0.12);
+    padding: 40px 36px;
+}
+.login-box h2 {
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 14px;
+    color: #0b104a;
+    font-weight: 700;
+    text-align: center;
+}
+.login-box p.login-subtitle {
+    margin-bottom: 32px;
+    color: #6b7181;
+    text-align: center;
+}
+.login-form .form-group {
+    margin-bottom: 22px;
+}
+.login-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #3a4758;
+}
+.login-form input {
+    width: 100%;
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: 1px solid #e7ebf5;
+    background: #f8faff;
+    color: #202936;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.login-form input:focus {
+    border-color: #525fe1;
+    box-shadow: 0 0 0 5px rgba(82, 95, 225, 0.12);
+    outline: none;
+}
+.login-form .form-check {
+    margin-bottom: 22px;
+}
+.login-form .form-check-label {
+    color: #5f6d88;
+}
+.btn-login {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: #525fe1;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+.btn-login:hover,
+.btn-login:focus {
+    background: #3f4fd2;
+    transform: translateY(-1px);
+}
+.login-footer {
+    margin-top: 24px;
+    text-align: center;
+    color: #7b8397;
+    font-size: 14px;
+}
+.login-footer a {
+    color: #525fe1;
+    text-decoration: none;
+    font-weight: 600;
+}
+.login-footer a:hover {
+    text-decoration: underline;
+}
+@media (max-width: 576px) {
+    .login-box {
+        padding: 28px 22px;
+    }
+    .login-box h2 {
+        font-size: 28px;
+    }
+}
