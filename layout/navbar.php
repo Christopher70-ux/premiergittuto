@@ -35,7 +35,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 										<li><a href="blog_single.html">Blog Details</a></li>
 									</ul>
 								</li-->							  
-								<li><a href="ajoutlivres.php">Profil</a></li>
+								<li><a href="profil.php" class="<?= $current_page == 'profil.php' ? 'active' : '' ?>">Profil</a></li>
 							</ul>
 						</nav>
 					</div><!--- END Col -->
