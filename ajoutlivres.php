@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($success) {
                 $_SESSION['success'] = "Livre ajouté avec succès !";
-                header('Location: all_livres.php');
+                header('Location: meslivres.php');
                 exit();
             }
         } catch (PDOException $e) {
