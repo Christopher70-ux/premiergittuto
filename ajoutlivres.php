@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contenu = trim(htmlspecialchars($_POST['contenu']));
     $prix = filter_var($_POST['prix'], FILTER_VALIDATE_FLOAT);
     $categorie_id = filter_var($_POST['categorie_id'], FILTER_VALIDATE_INT);
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['id'];
     $created_at = date('Y-m-d H:i:s');
 
     $errors = [];
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($success) {
                 $_SESSION['success'] = "Livre ajouté avec succès !";
-                header('Location: liste_livres.php');
+                header('Location: all_livres.php');
                 exit();
             }
         } catch (PDOException $e) {

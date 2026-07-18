@@ -33,6 +33,9 @@
 					<div class="col-20 d-none d-xl-block text-end align-self-center">
 						<!--a href="login.php" class="header-btn">Se connecter</a-->
 						<a href="ajoutlivres.php" class="btn_one">Publier</a>
+						<a href="layout/logout.php" class="btn_one">Déconnexion</a>
+						
+						
 					</div><!--- END Col -->
 					
 					<ul class="mobile_menu">						
@@ -47,7 +50,7 @@
 								<li><a href="blog_single.html">Blog Details</a></li>
 							</ul>
 						</li-->						
-						<li><a href="layout/logout.php">Déconnexion</a></li>
+						>
 					</ul>			
 				</div><!--- END ROW -->
 			</div><!--- END CONTAINER -->
