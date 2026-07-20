@@ -88,12 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: ajoutlivres.php');
     exit();
 }
+
+// Récupération + nettoyage des messages flash (session) à afficher une seule fois
+$flash_success = $_SESSION['success'] ?? null;
+$flash_error   = $_SESSION['error'] ?? null;
+$flash_errors  = $_SESSION['errors'] ?? null;
+unset($_SESSION['success'], $_SESSION['error'], $_SESSION['errors']);
 ?>
-
-
-
-
-
 
 
 
@@ -155,10 +156,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<div class="container">
 			<div class="col-lg-10 offset-lg-1 text-center">
 				<div class="section-top-title wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.3s" data-wow-offset="0">
-					<h1>Get In Touch</h1>
+					<h1>Publier un livre</h1>
 					<ul>
-						<li><a href="index.html">Home</a></li>
-						<li> / Contact</li>
+						<li><a href="index.php">Accueil</a></li>
+						<li> / Publier</li>
 					</ul>
 				</div><!-- //.HERO-TEXT -->
 			</div><!--- END COL -->
@@ -166,57 +167,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	</section>
 	<!-- END SECTION TOP -->
 
-	<!-- START ADDRESS -->
-	<section class="address_area section-padding">
-		<div class="container">
-			<div class="row text-center">
-				<div class="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s" data-wow-offset="0">
-					<div class="single_address sa_one">
-						<i class="ti-map"></i>
-						<h4>Our Location</h4>
-						<p>3481 Melrose Place, Beverly Hills <br /> CA 90210</p>
-					</div>
-				</div><!-- END COL -->
-				<div class="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s" data-wow-offset="0">
-					<div class="single_address sa_two">
-						<i class="ti-mobile"></i>
-						<h4>Telephone</h4>
-						<p>(+1) 517 397 7100</p>
-						<p>(+1) 411 315 8138</p>
-					</div>
-				</div><!-- END COL -->
-				<div class="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s" data-wow-offset="0">
-					<div class="single_address sa_three">
-						<i class="ti-email"></i>
-						<h4>Send email</h4>
-						<p>Info@example.com</p>
-						<p>admin@example.com</p>
-					</div>
-				</div><!-- END COL -->
-			</div><!--- END ROW -->
-		</div><!--- END CONTAINER -->
-	</section>
-	<!-- END ADDRESS -->
-
-	<!-- CONTACT -->
+	<!-- START AJOUT LIVRE -->
 	<div id="contact" class="contact_area section-padding">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-7 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s" data-wow-offset="0">
-					<div class="contact">
-						<form class="form" name="enq" method="post" action="" enctype="multipart/form-data">
+			<div class="row justify-content-center">
+				<div class="col-lg-9 col-xl-8 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s" data-wow-offset="0">
+
+					<div class="section-title text-center">
+						<h2>Ajouter un <b>nouveau livre</b></h2>
+						<p>Remplissez les informations ci-dessous pour publier votre livre sur la plateforme.</p>
+					</div>
+
+					<!-- Messages de succès / erreur -->
+					<?php if ($flash_success): ?>
+						<div class="alert-floating alert-success-custom">
+							<i class="fa-solid fa-circle-check"></i>
+							<div><?= htmlspecialchars($flash_success, ENT_QUOTES, 'UTF-8') ?></div>
+						</div>
+					<?php endif; ?>
+
+					<?php if ($flash_error): ?>
+						<div class="alert-floating alert-danger-custom">
+							<i class="fa-solid fa-circle-exclamation"></i>
+							<div><?= htmlspecialchars($flash_error, ENT_QUOTES, 'UTF-8') ?></div>
+						</div>
+					<?php endif; ?>
+
+					<?php if (!empty($flash_errors) && is_array($flash_errors)): ?>
+						<div class="alert-floating alert-danger-custom">
+							<i class="fa-solid fa-circle-exclamation"></i>
+							<div>
+								<strong>Merci de corriger les points suivants :</strong>
+								<ul>
+									<?php foreach ($flash_errors as $err): ?>
+										<li><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?></li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
+						</div>
+					<?php endif; ?>
+
+					<div class="book-form-card">
+						<form class="form" name="enq" method="post" action="" enctype="multipart/form-data" id="bookForm">
 							<div class="row">
-								<div class="form-group col-md-6">
-									<label for="">Titre du livre</label>
-									<input type="text" name="titre" class="form-control" required="required">
+								<div class="col-md-6 form-field">
+									<label for="titre"><i class="ti-book"></i> Titre du livre <span class="required-star">*</span></label>
+									<div class="input-icon-wrap">
+										<span class="field-icon"><i class="fa-solid fa-heading"></i></span>
+										<input type="text" id="titre" name="titre" class="form-control" placeholder="Ex. Le Seigneur des Anneaux" required>
+									</div>
 								</div>
-								<div class="form-group col-md-6">
-									<label for="">Prix</label>
-									<input type="number" name="prix" class="form-control" step="0.01" min="0" required="required">
+
+								<div class="col-md-6 form-field">
+									<label for="prix"><i class="ti-wallet"></i> Prix (€) <span class="required-star">*</span></label>
+									<div class="input-icon-wrap">
+										<span class="field-icon"><i class="fa-solid fa-euro-sign"></i></span>
+										<input type="number" id="prix" name="prix" class="form-control" step="0.01" min="0" placeholder="Ex. 15.00" required>
+									</div>
 								</div>
-								<div class="form-group col-md-12">
-									<label for="">Catégorie</label>
-									<select name="categorie_id" class="form-control" required="required">
+
+								<div class="col-md-12 form-field">
+									<label for="categorie_id"><i class="ti-tag"></i> Catégorie <span class="required-star">*</span></label>
+									<select id="categorie_id" name="categorie_id" class="form-control" required>
 										<option value="">Sélectionnez une catégorie</option>
 										<?php
 										try {
@@ -230,27 +242,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 										?>
 									</select>
 								</div>
-								<div class="form-group col-md-12">
-									<label for="">Image du livre</label>
-									<input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png,.gif,.webp" required="required">
-									<small class="form-text text-muted">Formats autorisés : JPG, PNG, GIF, WEBP (max 5 Mo)</small>
+
+								<div class="col-md-12 form-field">
+									<label for="image"><i class="ti-image"></i> Image du livre <span class="required-star">*</span></label>
+									<label class="book-upload-zone" id="uploadZone">
+										<i class="fa-solid fa-cloud-arrow-up"></i>
+										<span class="upload-text-main">Cliquez ou déposez une image ici</span>
+										<span class="upload-text-sub">JPG, PNG, GIF ou WEBP — 5 Mo maximum</span>
+										<input type="file" name="image" id="image" accept=".jpg,.jpeg,.png,.gif,.webp" required>
+									</label>
+									<div class="book-upload-preview" id="uploadPreview">
+										<img id="uploadPreviewImg" src="" alt="Aperçu de l'image">
+									</div>
 								</div>
-								<div class="form-group col-md-12">
-									<label for="">Contenu / Description</label>
-									<textarea rows="6" name="contenu" class="form-control" required="required" placeholder="Décrivez votre livre..."></textarea>
+
+								<div class="col-md-12 form-field">
+									<label for="contenu"><i class="ti-align-left"></i> Contenu / Description <span class="required-star">*</span></label>
+									<textarea rows="6" id="contenu" name="contenu" class="form-control" required placeholder="Décrivez votre livre : résumé, thèmes abordés, ce qui le rend unique..."></textarea>
 								</div>
-								<div class="col-md-12 text-center">
-									<button type="submit" value="Ajouter un livre" name="submit" id="submitButton" class="btn_one" title="Ajouter votre livre!">Ajouter le livre</button>
+
+								<div class="col-md-12 text-center mt-2">
+									<button type="submit" value="Ajouter un livre" name="submit" id="submitButton" class="book-form-submit" title="Ajouter votre livre !">
+										<i class="fa-solid fa-paper-plane"></i> Publier le livre
+									</button>
 								</div>
 							</div>
 						</form>
 					</div>
+
 				</div><!-- END COL  -->
-				<!-- END COL  -->
 			</div><!-- END ROW -->
 		</div><!--- END CONTAINER -->
 	</div>
-	<!-- END CONTACT -->
+	<!-- END AJOUT LIVRE -->
 
 	<?php require_once 'layout/footer.php'; ?>
 
@@ -274,6 +298,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<script src="assets/js/wow.min.js"></script>
 	<!-- scripts js -->
 	<script src="assets/js/scripts.js"></script>
+
+	<!-- Aperçu de l'image + retour visuel du champ de dépôt de fichier -->
+	<script>
+		(function () {
+			var input = document.getElementById('image');
+			var zone = document.getElementById('uploadZone');
+			var preview = document.getElementById('uploadPreview');
+			var previewImg = document.getElementById('uploadPreviewImg');
+
+			if (!input) return;
+
+			input.addEventListener('change', function () {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						previewImg.src = e.target.result;
+						preview.style.display = 'block';
+						zone.querySelector('.upload-text-main').textContent = input.files[0].name;
+					};
+					reader.readAsDataURL(input.files[0]);
+				}
+			});
+
+			['dragenter', 'dragover'].forEach(function (evt) {
+				zone.addEventListener(evt, function (e) {
+					e.preventDefault();
+					zone.classList.add('dragover');
+				});
+			});
+			['dragleave', 'drop'].forEach(function (evt) {
+				zone.addEventListener(evt, function (e) {
+					e.preventDefault();
+					zone.classList.remove('dragover');
+				});
+			});
+
+			// Désactive le bouton pendant l'envoi pour éviter les doubles soumissions
+			var form = document.getElementById('bookForm');
+			var submitBtn = document.getElementById('submitButton');
+			if (form && submitBtn) {
+				form.addEventListener('submit', function () {
+					submitBtn.disabled = true;
+					submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publication en cours...';
+				});
+			}
+		})();
+	</script>
 </body>
 
 </html>

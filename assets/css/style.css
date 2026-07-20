@@ -37,11 +37,13 @@ body {
 	font-weight: 400;
 	line-height: 26px;
 	background: #fff;
-	overflow-x: hidden;
 }
 
-html,
-body { height: 100%;position:relative;  }
+html {
+	overflow-x: hidden;
+	position: relative;
+}
+body { position: relative; }
 h1,
 h2,
 h3,
@@ -441,7 +443,7 @@ top: 40px;
 	display: inline-block;
 	font-weight: 600;
 	font-size: 18px;
-	color: #0b104a;
+	color: green;
 	transition: .5s;	
 }
 .header-btn:hover,
@@ -2798,3 +2800,571 @@ font-weight: 700;
 * 18.END SECTION TOP DESIGN
 * ----------------------------------------------------------------------------------------
 */
+
+/*
+* ----------------------------------------------------------------------------------------
+* 19. AMELIORATIONS UI - Navbar / Footer / Formulaires / Alertes / Profil / Livres
+*   (Ajouts qui completent le style existant sans le modifier, dans la meme identite visuelle)
+* ----------------------------------------------------------------------------------------
+*/
+
+/* --- Navbar : alignement des boutons + petites animations --- */
+.col-20.d-xl-block.text-end.align-self-center {
+	display: flex !important;
+	flex-wrap: nowrap !important;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 12px;
+}
+.col-20 .btn_one,
+.col-20 .header-btn { white-space: nowrap; }
+
+#navigation {
+	transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+#main-menu ul li a {
+	position: relative;
+}
+#main-menu ul li a::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -4px;
+	width: 0;
+	height: 2px;
+	background: #525fe1;
+	transition: width 0.3s ease;
+}
+#main-menu ul li a:hover::after,
+#main-menu ul li a.active::after {
+	width: 100%;
+}
+.header-btn {
+	transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.header-btn:hover,
+.btn_one:hover {
+	transform: translateY(-2px);
+}
+
+/* --- Avatar / puce utilisateur connecte dans la navbar --- */
+.nav_user_chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.nav_user_avatar {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #525fe1, #7b85f0);
+	color: #fff;
+	font-family: 'Jost', sans-serif;
+	font-weight: 700;
+	font-size: 16px;
+	box-shadow: 0 6px 16px rgba(82, 95, 225, 0.35);
+	transition: transform 0.25s ease;
+}
+.nav_user_chip:hover .nav_user_avatar {
+	transform: scale(1.08);
+}
+
+/* --- Footer : petites animations et coherence --- */
+.footer .single_footer h4 {
+	position: relative;
+	padding-bottom: 12px;
+}
+.footer .single_footer h4::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 36px;
+	height: 3px;
+	border-radius: 3px;
+	background: #525fe1;
+}
+.footer .single_footer ul li a {
+	display: inline-block;
+	transition: transform 0.25s ease, color 0.25s ease;
+}
+.footer .single_footer ul li a:hover {
+	transform: translateX(4px);
+}
+.social_profile ul li a {
+	transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+.social_profile ul li a:hover {
+	transform: translateY(-4px);
+}
+.foot_copy p a {
+	color: #525fe1;
+	font-weight: 700;
+}
+.foot_copy p a:hover { color: #f26b65; }
+
+/* --- Messages de succes / erreur (utilises sur ajoutlivres.php, etc.) --- */
+.alert-floating {
+	border-radius: 14px;
+	padding: 16px 22px;
+	margin-bottom: 24px;
+	font-family: 'DM Sans', sans-serif;
+	font-size: 15px;
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	box-shadow: 0 12px 28px rgba(23, 23, 36, 0.08);
+	border: 1px solid transparent;
+	animation: alertSlideIn 0.4s ease;
+}
+@keyframes alertSlideIn {
+	from { opacity: 0; transform: translateY(-8px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+.alert-floating i { font-size: 20px; margin-top: 2px; }
+.alert-floating.alert-success-custom {
+	background: #ecfdf3;
+	border-color: #b7ebc6;
+	color: #1e7b3f;
+}
+.alert-floating.alert-danger-custom {
+	background: #fdecec;
+	border-color: #f3b9b4;
+	color: #b3261e;
+}
+.alert-floating ul { margin: 4px 0 0; padding-left: 18px; }
+
+/* --- Formulaire "Publier un livre" modernise --- */
+.book-form-card {
+	background: #ffffff;
+	border-radius: 24px;
+	box-shadow: 0 20px 45px rgba(23, 23, 36, 0.08);
+	border: 1px solid rgba(82, 95, 225, 0.10);
+	padding: 44px;
+}
+@media (max-width: 767px) {
+	.book-form-card { padding: 26px 20px; }
+}
+.book-form-card .form-field {
+	margin-bottom: 24px;
+}
+.book-form-card label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-family: 'Jost', sans-serif;
+	font-weight: 600;
+	color: #0b104a;
+	margin-bottom: 10px;
+	font-size: 15px;
+}
+.book-form-card label i {
+	color: #525fe1;
+}
+.book-form-card .form-control {
+	border: 1.5px solid #e5e7f6;
+	border-radius: 12px;
+	padding: 13px 16px;
+	font-size: 15px;
+	transition: border-color 0.25s ease, box-shadow 0.25s ease;
+	background: #fbfbff;
+}
+.book-form-card .form-control:focus {
+	border-color: #525fe1;
+	box-shadow: 0 0 0 4px rgba(82, 95, 225, 0.12);
+	background: #fff;
+	outline: none;
+}
+.book-form-card textarea.form-control {
+	resize: vertical;
+	min-height: 150px;
+}
+.book-form-card .input-icon-wrap {
+	position: relative;
+}
+.book-form-card .input-icon-wrap .field-icon {
+	position: absolute;
+	top: 50%;
+	left: 16px;
+	transform: translateY(-50%);
+	color: #9aa0d6;
+	font-size: 15px;
+}
+.book-form-card .input-icon-wrap .form-control {
+	padding-left: 42px;
+}
+
+/* Zone de depot d'image façon "dropzone" */
+.book-upload-zone {
+	border: 2px dashed #c9cdf2;
+	border-radius: 16px;
+	padding: 28px 20px;
+	text-align: center;
+	background: #f8f9ff;
+	cursor: pointer;
+	transition: border-color 0.25s ease, background 0.25s ease;
+	position: relative;
+}
+.book-upload-zone:hover,
+.book-upload-zone.dragover {
+	border-color: #525fe1;
+	background: #f0f1ff;
+}
+.book-upload-zone i {
+	font-size: 30px;
+	color: #525fe1;
+	margin-bottom: 10px;
+	display: block;
+}
+.book-upload-zone .upload-text-main {
+	font-family: 'Jost', sans-serif;
+	font-weight: 600;
+	color: #0b104a;
+}
+.book-upload-zone .upload-text-sub {
+	font-size: 13px;
+	color: #8a9095;
+	margin-top: 4px;
+}
+.book-upload-zone input[type="file"] {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+.book-upload-preview {
+	margin-top: 16px;
+	display: none;
+}
+.book-upload-preview img {
+	max-height: 180px;
+	border-radius: 12px;
+	box-shadow: 0 10px 26px rgba(23, 23, 36, 0.12);
+}
+.book-form-submit {
+	border: none;
+	background: linear-gradient(135deg, #525fe1, #6b74ea);
+	color: #fff;
+	font-family: 'Jost', sans-serif;
+	font-weight: 700;
+	font-size: 16px;
+	padding: 15px 42px;
+	border-radius: 50px;
+	box-shadow: 0 14px 30px rgba(82, 95, 225, 0.3);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+.book-form-submit:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 18px 36px rgba(82, 95, 225, 0.4);
+	color: #fff;
+}
+.book-form-card .required-star { color: #f26b65; }
+
+/* --- Page "Mes livres" : reprise du style carte de la home --- */
+.mes-livres-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 14px;
+	margin-bottom: 34px;
+}
+.mes-livres-toolbar .count-pill {
+	background: #f0f1ff;
+	color: #525fe1;
+	font-family: 'Jost', sans-serif;
+	font-weight: 600;
+	font-size: 14px;
+	padding: 8px 18px;
+	border-radius: 30px;
+}
+
+/* --- Profil : avatar --- */
+.profile-card .profile-avatar {
+	width: 84px;
+	height: 84px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #525fe1, #7b85f0);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Jost', sans-serif;
+	font-size: 34px;
+	font-weight: 700;
+	box-shadow: 0 14px 30px rgba(82, 95, 225, 0.3);
+	margin-bottom: 20px;
+}
+.profile-card .profile-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 0;
+	border-bottom: 1px dashed rgba(11, 16, 74, 0.08);
+}
+.profile-card .profile-row:last-of-type { border-bottom: none; }
+.profile-card .profile-row i {
+	width: 38px;
+	height: 38px;
+	min-width: 38px;
+	border-radius: 10px;
+	background: #f0f1ff;
+	color: #525fe1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+}
+.profile-card .profile-row .profile-label {
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.4px;
+	color: #9aa0a3;
+	display: block;
+	margin-bottom: 2px;
+}
+.profile-card .profile-row .profile-value {
+	font-family: 'Jost', sans-serif;
+	font-weight: 600;
+	color: #0b104a;
+	font-size: 16px;
+}
+
+/*
+* ----------------------------------------------------------------------------------------
+* 20. SECTION "LIVRES" (cartes + filtres) - deplace depuis all_livres.php
+*   afin que ce style soit partage par toutes les pages qui affichent des livres
+*   (index.php via all_livres.php, ET meslivres.php)
+* ----------------------------------------------------------------------------------------
+*/
+
+/* --- Grille et espacement --- */
+.livres_area {
+    background: #fcfcfd; /* fond tres legerement grise pour faire ressortir les cartes */
+}
+
+/* --- Filtres --- */
+.livre-filters {
+    margin-bottom: 50px;
+}
+
+.livre-filters .filter-btn {
+    background: transparent;
+    border: 2px solid #e0e0e6;
+    color: #4a5355;
+    padding: 10px 28px;
+    margin: 0 6px 12px;
+    border-radius: 40px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    transition: all 0.35s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.livre-filters .filter-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    background: #525fe1;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.35s ease;
+    z-index: -1;
+}
+
+.livre-filters .filter-btn.active,
+.livre-filters .filter-btn:hover {
+    color: #fff;
+    background: #525fe1;
+    border-color: #525fe1;
+}
+
+.livre-filters .filter-btn.active::after,
+.livre-filters .filter-btn:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.livre-filters .filter-btn.active {
+    box-shadow: 0 8px 20px rgba(82, 95, 225, 0.25);
+}
+
+/* --- Carte d'un livre --- */
+.single_livre {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(23, 23, 36, 0.05);
+    margin-bottom: 35px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2),
+                box-shadow 0.4s ease;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.single_livre:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(23, 23, 36, 0.12);
+}
+
+/* --- Image et overlay --- */
+.livre_img {
+    position: relative;
+    overflow: hidden;
+    height: 260px; /* hauteur fixe pour coherence */
+}
+
+.livre_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease, filter 0.4s ease;
+}
+
+.single_livre:hover .livre_img img {
+    transform: scale(1.08);
+    filter: brightness(0.9);
+}
+
+/* Overlay subtil pour ameliorer la lisibilite du badge */
+.livre_img::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+/* --- Badge de categorie --- */
+.livre_cat_badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0b104a;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 6px 18px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* --- Informations du livre --- */
+.livre_info {
+    padding: 25px 22px 30px;
+}
+
+.livre_info h4 {
+    font-family: 'Jost', sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #0b104a;
+    margin-bottom: 12px;
+    transition: color 0.2s ease;
+}
+
+.single_livre:hover .livre_info h4 {
+    color: #525fe1;
+}
+
+.livre_info .prix {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #f26b65;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Description */
+.livre_info .description {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #5a6366;
+    margin-bottom: 20px;
+}
+
+/* Optionnel : bouton "En savoir plus" (si vous l'ajoutez plus tard) */
+.livre_info .btn_detail {
+    display: inline-block;
+    margin-top: auto;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    color: #525fe1;
+    font-size: 15px;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s, padding 0.3s;
+}
+
+.livre_info .btn_detail i {
+    margin-left: 6px;
+    transition: transform 0.3s;
+}
+
+.livre_info .btn_detail:hover {
+    border-bottom-color: #525fe1;
+    padding-bottom: 2px;
+}
+
+.livre_info .btn_detail:hover i {
+    transform: translateX(4px);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .livre_img {
+        height: 220px;
+    }
+    .livre-filters .filter-btn {
+        padding: 8px 20px;
+        font-size: 14px;
+        margin: 0 4px 10px;
+    }
+    .livre_info h4 {
+        font-size: 18px;
+    }
+    .livre_info .prix {
+        font-size: 20px;
+    }
+}
+
+/*
+* ----------------------------------------------------------------------------------------
+* 21. NAVBAR TOUJOURS VISIBLE AU DEFILEMENT (sticky, sans JS pour eviter les saccades)
+* ----------------------------------------------------------------------------------------
+*/
+#navigation {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(11, 16, 74, 0.06);
+}

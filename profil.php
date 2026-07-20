@@ -67,10 +67,10 @@ $registration_date = htmlspecialchars($_SESSION['registration_date'] ?? 'Date in
 			<div class="container">
 				<div class="col-lg-10 offset-lg-1 text-center">
 					<div class="section-top-title wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.3s" data-wow-offset="0">
-						<h1>Single Blog</h1>
+						<h1>Mon Profil</h1>
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li> / Single Blog</li>
+							<li><a href="index.php">Accueil</a></li>
+							<li> / Profil</li>
 						</ul>
 					</div><!-- //.HERO-TEXT -->
 				</div><!--- END COL -->
@@ -83,20 +83,41 @@ $registration_date = htmlspecialchars($_SESSION['registration_date'] ?? 'Date in
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2">
-					<div class="profile-card">
+					<div class="profile-card wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s" data-wow-offset="0">
+						<div class="profile-avatar"><?php echo htmlspecialchars(mb_strtoupper(mb_substr($username, 0, 1)), ENT_QUOTES, 'UTF-8'); ?></div>
 						<h2>Mon Profil</h2>
-						<p><strong>Nom d'utilisateur :</strong> <?php echo $username; ?></p>
-						<p><strong>Adresse e-mail :</strong> <?php echo $email; ?></p>
-						<p><strong>Date d'inscription :</strong> <?php echo $registration_date; ?></p>
+
+						<div class="profile-row">
+							<i class="ti-user"></i>
+							<div>
+								<span class="profile-label">Nom d'utilisateur</span>
+								<span class="profile-value"><?php echo $username; ?></span>
+							</div>
+						</div>
+						<div class="profile-row">
+							<i class="ti-email"></i>
+							<div>
+								<span class="profile-label">Adresse e-mail</span>
+								<span class="profile-value"><?php echo $email; ?></span>
+							</div>
+						</div>
+						<div class="profile-row">
+							<i class="ti-calendar"></i>
+							<div>
+								<span class="profile-label">Date d'inscription</span>
+								<span class="profile-value"><?php echo $registration_date; ?></span>
+							</div>
+						</div>
+
 						<div class="profile-actions">
-							<a href="layout/logout.php" class="btn-profile btn-logout">Se déconnecter</a> 
-							<a href="#" class="btn-profile btn-edit">Modifier le profil</a>
+							<a href="meslivres.php" class="btn-profile btn-edit"><i class="ti-book"></i> Mes livres</a>
+							<a href="layout/logout.php" class="btn-profile btn-logout"><i class="ti-power-off"></i> Se déconnecter</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 
 	<!-- END BLOG -->		
 		
