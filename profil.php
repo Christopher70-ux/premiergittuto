@@ -1,4 +1,5 @@
 <?php
+require_once 'config/config.php';
 session_start();
 
 if (empty($_SESSION['username'])) {
@@ -88,7 +89,7 @@ $registration_date = htmlspecialchars($_SESSION['registration_date'] ?? 'Date in
 						<p><strong>Adresse e-mail :</strong> <?php echo $email; ?></p>
 						<p><strong>Date d'inscription :</strong> <?php echo $registration_date; ?></p>
 						<div class="profile-actions">
-							<a href="logout.php" class="btn-profile btn-logout">Se déconnecter</a>
+							<a href="layout/logout.php" class="btn-profile btn-logout">Se déconnecter</a> 
 							<a href="#" class="btn-profile btn-edit">Modifier le profil</a>
 						</div>
 					</div>

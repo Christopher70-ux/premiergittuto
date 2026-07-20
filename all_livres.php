@@ -1,6 +1,7 @@
 <?php
 include 'config/config.php';
 
+
 // Requête avec jointure pour récupérer le nom de la catégorie
 $query = "
     SELECT l.titre, l.contenu, l.image, l.prix, c.nom AS categorie_nom
@@ -45,7 +46,7 @@ $livres = $stmt->fetchAll();
                     $categorieSlug = preg_replace('/[^a-z0-9]+/', '-', $categorieSlug);
 
                     // --- Gestion de l'image (corrigée) ---
-                    $dossierImages = 'assets/img/'; 
+                    $dossierImages = 'images/'; 
                     $imageDefaut   = $dossierImages . 'default.jpg';
                     $image         = $livre['image'];
 

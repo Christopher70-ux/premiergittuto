@@ -1,6 +1,5 @@
 ﻿<?php
 require_once 'config/config.php';
-require_once 'config/auth.php';
 
 $errors = [];
 $successes = [];
@@ -110,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section class="section-padding">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center">   
                 <div class="col-lg-8 col-sm-12">
                     <div class="contact">
                         <?php if (!empty($errors)): ?>
@@ -131,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         <?php endif; ?>
 
-                        <form method="post" action="inscription.php">
+                        <form method="post" action="inscription.php">   
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="nom">Nom *</label>

@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/config/config.php';
 
+
 $errors = [];
 $username = '';
 
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['username'] = $user['nom'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['registration_date'] = $user['created_at'];
-                header('Location: profil.php');
+                header('Location: index.php');
                 exit;
             }
         }

@@ -1,4 +1,14 @@
-<!-- START NAVBAR -->  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<title>Navbarconn</title>
+</head>
+<body>
+	
+	<!-- START NAVBAR -->  
 		<div id="navigation" class="navbar-light bg-faded site-navigation">
 			<div class="container-fluid">
 				<div class="row">
@@ -33,7 +43,7 @@
 					<div class="col-20 d-none d-xl-block text-end align-self-center">
 						<!--a href="login.php" class="header-btn">Se connecter</a-->
 						<a href="ajoutlivres.php" class="btn_one">Publier</a>
-						<a href="layout/logout.php" class="btn_one">Déconnexion</a>
+						<a href="layout/logout.php" class="btn_one">Déconnexion</a>   
 						
 						
 					</div><!--- END Col -->
@@ -41,7 +51,7 @@
 					<ul class="mobile_menu">						
 						<li><a href="index.php">Accueil</a>
 						</li>	
-						<li><a href="meslivres.php">Mes Livres</a></li>						
+						<li><a href="meslivres.php">Mes Livres</a></li>			  			
 						<li><a href="profil.php">Profil</a></li>
 						<li><a href="ajoutlivres.php">Publier</a></li>			
 						<!--li><a href="blog.html">Blog</a>
@@ -56,3 +66,7 @@
 			</div><!--- END CONTAINER -->
 		</div> 	  
 		<!-- END NAVBAR -->	
+
+</body>
+</html>
+

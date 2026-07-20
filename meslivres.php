@@ -20,9 +20,9 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 6; // Nombre d'éléments par page
 $offset = ($page - 1) * $limit;
 
-try {
+try {   
     // Connexion directe à la base de données
-    $host = '127.0.0.1:3306';
+    $host = 'localhost';
     $dbname = 'premiergituto';
     $username = 'root'; // Remplacez par votre utilisateur MySQL
     $password = ''; // Remplacez par votre mot de passe MySQL
@@ -142,7 +142,7 @@ try {
                     <div class="col-12 text-center">
                         <div class="alert alert-info">
                             <p>Vous n'avez pas encore de cours. Commencez à en créer !</p>
-                            <a href="ajouter_livre.php" class="btn btn-primary">Ajouter votre premier cours</a>
+                            <a href="ajoutlivres.php" class="btn btn-primary">Ajouter votre premier cours</a>
                         </div>
                     </div>
                 <?php else: ?>

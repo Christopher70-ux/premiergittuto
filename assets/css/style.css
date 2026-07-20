@@ -212,7 +212,7 @@ width: 50px;
 	transition: 0.3s;
 	font-weight: 600;
 }
-.btn_one i{margin-right:5px;}
+.btn_one i{margin-right:5px;} 
 .btn_one:hover{
 background:#f26b65;
 color:#fff;

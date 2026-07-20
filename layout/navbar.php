@@ -41,7 +41,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 						</nav>
 					</div><!--- END Col -->
 					
-					<div class="col-20 d-none d-xl-block text-end align-self-center">
+					<div class="col-20 d-none d-xl-block text-end align-self-center">  
 						<a href="login.php" class="header-btn">Se connecter</a>
 						<a href="inscription.php" class="btn_one">S'inscrire</a>
 					</div><!--- END Col -->
