@@ -1,5 +1,5 @@
 <?php
-require 'config/auth.php';
+
 require 'config/config.php';
 ?>
 
@@ -47,6 +47,8 @@ require 'config/config.php';
 <body data-spy="scroll" data-offset="80">
 
 	<?php
+	session_start();
+
 	if (isset($_SESSION['id'])) {
 		require_once 'layout/navbarcon.php';   // Navbar connecté
 	} else {
@@ -78,51 +80,51 @@ require 'config/config.php';
 							<h2>4500+</h2>
 							<p>Active student</p>
 						</div>
-					</div>					
-				  </div><!--- END COL -->						  
-				</div><!--- END ROW -->
-			</div><!--- END CONTAINER -->
-		</section>
-		<!-- END  HOME -->	
-		 
-		
-
-		<!-- START COUNTER -->
-		<section class="count_area counter_feature">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-3 col-sm-6 col-xs-12">
-						<div class="single-counter">
-							<span class="ti-folder sc_one"></span>
-							<h2 class="counter-num">134</h2>
-							<p>Our Online Course</p>
-						</div>							
 					</div>
-					<div class="col-lg-3 col-sm-6 col-xs-12">
-						<div class="single-counter">
-							<span class="ti-medall-alt sc_two"></span>
-							<h2 class="counter-num">299</h2>
-							<p>Academic Programs</p> 
-						</div>
-					</div><!-- END COL -->
-					<div class="col-lg-3 col-sm-6 col-xs-12">
-						<div class="single-counter">
-							<span class="ti-id-badge sc_three"></span>
-							<h2 class="counter-num">684</h2>
-							<p>Certified Students</p>
-						</div>
-					</div><!-- END COL -->
-					<div class="col-lg-3 col-sm-6 col-xs-12">
-						<div class="single-counter">
-							<span class="ti-user sc_four"></span>
-							<h2 class="counter-num">941</h2>
-							<p>Enrolled Students</p>
-						</div>
-					</div><!-- END COL -->						
-				</div><!--- END ROW -->
-			</div><!--- END CONTAINER -->		
-		</section>
-		<!-- END COUNTER -->
+				</div><!--- END COL -->
+			</div><!--- END ROW -->
+		</div><!--- END CONTAINER -->
+	</section>
+	<!-- END  HOME -->
+
+
+
+	<!-- START COUNTER -->
+	<section class="count_area counter_feature">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-sm-6 col-xs-12">
+					<div class="single-counter">
+						<span class="ti-folder sc_one"></span>
+						<h2 class="counter-num">134</h2>
+						<p>Our Online Course</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6 col-xs-12">
+					<div class="single-counter">
+						<span class="ti-medall-alt sc_two"></span>
+						<h2 class="counter-num">299</h2>
+						<p>Academic Programs</p>
+					</div>
+				</div><!-- END COL -->
+				<div class="col-lg-3 col-sm-6 col-xs-12">
+					<div class="single-counter">
+						<span class="ti-id-badge sc_three"></span>
+						<h2 class="counter-num">684</h2>
+						<p>Certified Students</p>
+					</div>
+				</div><!-- END COL -->
+				<div class="col-lg-3 col-sm-6 col-xs-12">
+					<div class="single-counter">
+						<span class="ti-user sc_four"></span>
+						<h2 class="counter-num">941</h2>
+						<p>Enrolled Students</p>
+					</div>
+				</div><!-- END COL -->
+			</div><!--- END ROW -->
+		</div><!--- END CONTAINER -->
+	</section>
+	<!-- END COUNTER -->
 
 	<?php require_once 'all_livres.php'; ?>
 
