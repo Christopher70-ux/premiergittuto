@@ -17,7 +17,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 					<ul>
 						<li><a href="index.php" class="<?= $current_page == 'index.php' ? 'active' : '' ?>">Accueil</a></li>
 						<li><a href="meslivres.php" class="<?= $current_page == 'meslivres.php' ? 'active' : '' ?>">Mes Livres</a></li>
-						<li><a href="profil.php" class="<?= $current_page == 'profil.php' ? 'active' : '' ?>">Profil</a></li>
+						<!--li><a href="profil.php" class="<?= $current_page == 'profil.php' ? 'active' : '' ?>">Profil</a></li-->
 						<li><a href="ajoutlivres.php" class="<?= $current_page == 'ajoutlivres.php' ? 'active' : '' ?>">Publier</a></li>
 					</ul>
 				</nav>

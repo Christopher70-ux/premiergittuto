@@ -20,7 +20,7 @@ $nav_initial  = $nav_username !== '' ? mb_strtoupper(mb_substr($nav_username, 0,
 						<li><a href="index.php" class="<?= $current_page == 'index.php' ? 'active' : '' ?>">Accueil</a></li>
 						<li><a href="meslivres.php" class="<?= $current_page == 'meslivres.php' ? 'active' : '' ?>">Mes Livres</a></li>
 						<li><a href="profil.php" class="<?= $current_page == 'profil.php' ? 'active' : '' ?>">Profil</a></li>
-						<li><a href="ajoutlivres.php" class="<?= $current_page == 'ajoutlivres.php' ? 'active' : '' ?>">Publier</a></li>
+						<!--li><a href="ajoutlivres.php" class="<?= $current_page == 'ajoutlivres.php' ? 'active' : '' ?>">Publier</a></li-->
 					</ul>
 				</nav>
 			</div><!--- END Col -->
@@ -36,8 +36,8 @@ $nav_initial  = $nav_username !== '' ? mb_strtoupper(mb_substr($nav_username, 0,
 			<ul class="mobile_menu">
 				<li><a href="index.php">Accueil</a></li>
 				<li><a href="meslivres.php">Mes Livres</a></li>
-				<li><a href="profil.php">Profil</a></li>
-				<li><a href="ajoutlivres.php">Publier</a></li>
+				<!--li><a href="profil.php">Profil</a></li>
+				<li><a href="ajoutlivres.php">Publier</a></li-->
 				<li><a href="layout/logout.php">Déconnexion</a></li>
 			</ul>
 		</div><!--- END ROW -->
